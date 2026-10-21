@@ -1,0 +1,27 @@
+name: Check bounded-prefix Lean proofs
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: formal-bounded
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install official Lean toolchain manager
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://elan.lean-lang.org/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch pinned dependencies and official mathlib cache
+        run: lake --no-cache exe cache get $(cat mathlib-cache-modules.txt)
+      - name: Compile external and local proof sources
+        run: lake --no-cache build
+      - name: Audit every public local theorem and final endpoints
+        run: |
+          lake env lean VerificationAudit.lean > verification.log
+          cat verification.log
+          python3 check_audit.py verification.log

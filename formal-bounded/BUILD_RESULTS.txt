@@ -1,0 +1,11 @@
+Verified 21 October 2026, stock Lean 4.35.0-rc3.
+
+lake --no-cache build: PASS (all final endpoints included).
+lake env lean VerificationAudit.lean: PASS.
+python3 check_audit.py verification.log: PASS, 307 public theorems in 32 modules.
+Only axioms: propext, Classical.choice, Quot.sound.
+
+External dependency: 142 local modules rebuilt from source at pinned revision.
+Official mathlib cache only. No third-party proof-object cache.
+Full source-semantic review passed for the reference-depth, exact-cycle-mean
+length and actual deep-step conclusions. Sharpness is also kernel checked.

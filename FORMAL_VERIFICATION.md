@@ -1,70 +1,91 @@
-# Formal verification status
+# Formal verification: both papers' main theorems verified
 
-## Entropy-height paper: main theorem VERIFIED
+The exact symbolic main theorems of both papers are now proved end to end in
+Lean, including their actual Collatz dynamics, uniform quantifiers and limiting
+arguments. Their final theorem dependencies contain only `propext`,
+`Classical.choice`, and `Quot.sound`. No custom Diophantine axiom, assumed target
+statement, proof hole or native-evaluation axiom is used.
 
-The full exact symbolic maximum-height theorem is proved in
-[`formal/EntropyHeight.lean`](formal/EntropyHeight.lean), declaration
-`CollatzPrefix.entropy_height_liminf`.
+Two pinned projects keep the already verified entropy setup unchanged.
 
-Its assumptions are a positive natural starting value and injectivity of the
-actual shortcut Collatz orbit. Its conclusion is the extended-real lower limit
+## Entropy maximum height
 
-`liminf (log H_M / log M) >= log 2 / binEntropy (log 2 / log 3)`.
+Project: [`formal/`](formal/README.md), Lean 4.19.0.
+Endpoint: `CollatzPrefix.entropy_height_liminf` in
+[`EntropyHeight.lean`](formal/EntropyHeight.lean).
 
-Here `H_M` is exactly the maximum over the first `M` states. `binEntropy` uses
-natural logarithms, so the constant is precisely the paper's
-`1 / h_2(log_3 2)`. The statement allows the lower limit to be positive infinity.
-An explicitly proved equivalence also gives the usual formulation: every
-strictly smaller real exponent is eventually below the logarithmic height ratio.
+For a positive starting integer whose actual shortcut Collatz orbit is
+injective, the extended-real lower limit of `log H_M / log M` is at least
+`log 2 / binEntropy (log 2 / log 3)`, exactly the paper's `1/h_2(log_3 2)`.
+`H_M` is the maximum over exactly the first M states. Infinite lower limits are
+allowed. A separate equivalence proves the usual eventual-lower-exponent form.
 
-### Complete dependency path
+The complete chain includes parity-residue injectivity, finite entropy packing,
+chronological boundary corrections, exact growth, correction decay, the actual
+maximum/ceiling window and the asymptotic contradiction. The formal proof uses
+qualitative Cesàro decay in place of the written proof's stronger harmonic rate;
+this does not weaken the conclusion.
 
-1. `FormalComponents.lean`: the actual map, parity/residue injectivity,
-   finite Bernoulli entropy packing, chronological window boundary correction,
-   exact orbit growth and correction upper bound.
-2. `CorrectionDecay.lean`: injectivity implies escape from every finite set;
-   reciprocal corrections tend to zero and their Cesàro mean tends to zero.
-   This suffices for the main theorem; an explicit harmonic rate is unnecessary.
-3. `HeightWindow.lean`: actual prefix maximum, exact natural ceiling window,
-   bounded-state implication and logarithmic window upper bound.
-4. `EntropyHeight.lean`: bias lower bound, asymptotic contradiction, eventual
-   lower exponents and the exact extended-real lower-limit theorem.
+## Fixed repair budgets and deep steps
 
-No growth-rate, random-parity, finite-entropy, or desired-result hypothesis is
-assumed in the final theorem. The dependency audit admits only standard Lean
-foundations (`propext`, `Classical.choice`, `Quot.sound`).
+Project: [`formal-bounded/`](formal-bounded/README.md), Lean 4.35.0-rc3.
+Endpoints in [`BoundedRepairTheorem.lean`](formal-bounded/BoundedRepairTheorem.lean):
 
-This verifies the mathematical statement, not its novelty, literature priority,
-rounded decimal evaluation, or every sentence of the paper. The proof uses a
-qualitative Cesàro argument in place of the exposition's quantitative harmonic
-estimate. This does not weaken the final conclusion.
+- `bounded_repair_reference_depth`: for fixed dictionary C, repair budget R and
+  epsilon>0, one constant bounds the reference depth of every admissible actual
+  positive odd prefix by `(1+epsilon)log_2(n+1)+K`.
+- `bounded_repair_prefix_length`: the full general length bound, with coefficient
+  `(1+epsilon)/beta`. `beta` is formally identified with the minimum genuine
+  least-period cycle mean, not replaced by the weaker lower bound 1.
+- `bounded_deep_steps_prefix_length`: the exact negative-fixed-point
+  specialization, counting actual valuations `v_2(3n+1)>=2` rather than a
+  symbolic surrogate.
 
-## Bounded-deviations paper: arbitrary-repair theorem INCOMPLETE
+The constant is existentially quantified **before** all sources, lengths and
+reference paths. The paper's negative-reference/high-floor domain restriction
+is retained. The proof discharges the actual-map, minimal-repair, fixed-start,
+subsequence, clustering, valuation-cover, three-place-product, Subspace and
+S-unit elimination obligations. Induction uses only the strictly smaller repair
+budget. No hypothetical failure-family certificate is assumed by the final
+conclusions. See the [proof map](formal-bounded/BOUNDED_PROOF_MAP.md).
 
-The original rational defect identities and zero-deep-step bound are checked.
-`BoundedDeviations.lean` further develops the actual valuation-defined accelerated
-map, rational periodic dictionaries, good-run valuation loss and the zero-repair
-case. Consult its exact theorem signatures: these do not prove the arbitrary
-fixed repair-budget theorem.
+The ancillary sharpness paragraph is also formalized in
+[`SharpShallowFamily.lean`](formal-bounded/SharpShallowFamily.lean): the exact
+family `n=2^(h+1)-1` has h shallow steps, and no uniform leading coefficient
+below 1 can hold.
 
-Still required for the full paper:
+### Deep inputs and credit
 
-- Minimal-repair replacement, finite branching, induction and subsequences.
-- Cluster extraction, zero-cluster replacement and all local estimates.
-- The three-place product inequality and the appropriate Subspace Theorem.
-- Nondegenerate S-unit finiteness and exceptional-subspace elimination.
-- The final arbitrary-budget depth/length conclusions and specialization.
+The p-adic Subspace and S-unit results are imported from
+[Ralf Stephan's Subspace-Theorems](https://github.com/rwst/Subspace-Theorems),
+pinned to `09835cb23557ae5ae0cf55a9c4ab9055f5d60338`, with mathlib pinned to
+`5e0c4e5239cb0a2d86d68a884bf52cfd963fce22`. All 142 required local external
+modules were independently compiled from source; endpoint audits use stock
+Lean, not the upstream custom audit scripts. Only official mathlib caches are
+used. The dependency's Apache-2.0 notices remain in its source. See
+[dependency details](formal-bounded/EXTERNAL_DEPENDENCIES.md).
 
-The deep inputs are absent from the pinned mathlib used here. An external
-Subspace/S-unit formalization is under evaluation; it is not imported or relied
-upon in this revision. Absence from this project is not a claim that no external
-formalization exists. No axiom asserting those theorems or a Collatz-specific
-replacement has been added.
+These deep mathematical theorems and their formalizations are not discoveries
+of this Collatz project. Original mathematical citations and intellectual
+attribution are preserved in the papers and proof map.
 
-## Reproduction and acceptance
+## What verification does and does not establish
 
-See [formal/README.md](formal/README.md) for pinned toolchain and commands.
-`VerificationAudit.lean` covers every theorem/lemma in all five proof modules;
-`check_audit.py` checks coverage, forbidden proof-hole constructs and the
-Lean-produced axiom dependencies. A green aggregate build certifies only the
-statements actually present, not the incomplete arbitrary-repair theorem.
+- The checked conclusions follow from their explicit definitions and standard
+  Lean foundations. Separate semantic review inspected correspondence to the
+  paper statements, not merely successful compilation.
+- Every public local theorem/lemma is listed in the respective axiom audit.
+  Private helpers are kernel-checked and included transitively.
+- This does not prove Collatz convergence, allow a growing repair budget, give
+  effective constants, establish a comprehensive novelty/priority claim, or
+  independently verify every bibliographic or rounded numerical statement.
+- AI-assisted formal proof development and semantic review are disclosed. The
+  papers have not undergone independent human peer review.
+
+## Reproduction
+
+Each project has its own committed toolchain, dependency manifest, aggregate
+build target, theorem-coverage checker and recorded dependency log. Follow its
+README. The GitHub workflows rebuild and audit the exact committed sources.
+A green build must include the final endpoints; merely checking finite
+components would not meet this repository's completion criterion.

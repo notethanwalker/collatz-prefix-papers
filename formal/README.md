@@ -1,7 +1,9 @@
-# Lean proofs: full entropy theorem, partial bounded-deviations theorem
+# Lean 4.19: full entropy theorem and original components
 
 The entropy paper's **main symbolic asymptotic theorem is verified end to end**.
-The bounded-deviations paper's **arbitrary-repair theorem remains incomplete**.
+The bounded-deviations paper's complete proof is in the separate
+[Lean 4.35 project](../formal-bounded/README.md); the older components here
+remain available without changing this project's toolchain.
 See the [exact coverage](../FORMAL_VERIFICATION.md).
 
 Pinned toolchain: Lean 4.19.0, mathlib commit

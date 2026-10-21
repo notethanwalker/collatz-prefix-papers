@@ -5,3 +5,8 @@ formal/verification.log
 formal/*.olean
 formal/*.ilean
 formal/runtime-compat/*.so
+
+formal-bounded/.lake/
+formal-bounded/verification.log
+formal-bounded/*.olean
+formal-bounded/*.ilean

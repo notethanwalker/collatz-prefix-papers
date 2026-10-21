@@ -1,0 +1,340 @@
+import ActualRepairRatios
+import ActualSnapshotRelations
+import ActualSubspaceSmallness
+import ActualThreePlace
+import BoundedDeviations
+import BoundedRepairTheorem
+import ClusterRealBound
+import ClusterUnitElimination
+import CollatzSubspaceBridge
+import CounterexampleExtraction
+import DeepStepSpecialization
+import DepthBoundDefinitions
+import FailureFamilies
+import FamilyContradiction
+import FormalComponents
+import IntegerSnapshots
+import PeriodicMeanBound
+import PrefixRepairs
+import RepairAsymptotics
+import RepairClusterAssignment
+import RepairClusters
+import RepairDivergence
+import RepairUnitExpansion
+import SharpShallowFamily
+import SnapshotRelations
+import SortedRepairs
+import SpliceRepairs
+import StabilizedFailureFamily
+import SubspacePowerSqueeze
+import ThreePlaceProduct
+import ValuationCover
+import ZeroCluster
+
+#print axioms CollatzPrefix.ClusterElimination.MinimalZero
+#print axioms CollatzPrefix.ClusterElimination.cluster_sum_eq_zero_of_minimal_monochromatic
+#print axioms CollatzPrefix.ClusterElimination.eventually_cluster_sum_eq_zero
+#print axioms CollatzPrefix.ClusterElimination.exists_cluster_separation_bound
+#print axioms CollatzPrefix.ClusterElimination.exists_cluster_separation_bound_rat
+#print axioms CollatzPrefix.ClusterElimination.exists_minimal_time_bound
+#print axioms CollatzPrefix.ClusterElimination.exists_minimal_zero_subset
+#print axioms CollatzPrefix.ClusterElimination.exists_subsum_time_bound
+#print axioms CollatzPrefix.ClusterElimination.finite_minimalZeroRatios
+#print axioms CollatzPrefix.ClusterElimination.finite_minimalZeroRatios_option
+#print axioms CollatzPrefix.ClusterElimination.finite_normalized_minimal_zero_option
+#print axioms CollatzPrefix.ClusterElimination.group23_fg
+#print axioms CollatzPrefix.ClusterElimination.minimalZeroRatios_equiv
+#print axioms CollatzPrefix.ClusterElimination.minimalZero_subtype
+#print axioms CollatzPrefix.ClusterElimination.no_separated_nonzero_cluster
+#print axioms CollatzPrefix.ClusterElimination.normalized_unit_equation
+#print axioms CollatzPrefix.ClusterElimination.time_difference_eq_valuation
+#print axioms CollatzPrefix.ClusterElimination.unit23_mem
+#print axioms CollatzPrefix.ClusterElimination.unit23_val
+#print axioms CollatzPrefix.ClusterElimination.valuation_term
+#print axioms CollatzPrefix.RationalPeriodicDictionary.affine_path_endpoint_label
+#print axioms CollatzPrefix.RationalPeriodicDictionary.affine_path_follows_dictionary
+#print axioms CollatzPrefix.RationalPeriodicDictionary.commonPeriod_pos
+#print axioms CollatzPrefix.RationalPeriodicDictionary.cycleMeanAt_eq_minimalPeriod_average
+#print axioms CollatzPrefix.RationalPeriodicDictionary.cycleMeanAt_eq_period_average
+#print axioms CollatzPrefix.RationalPeriodicDictionary.cycleMeanAt_next
+#print axioms CollatzPrefix.RationalPeriodicDictionary.cycleMeanAt_pow
+#print axioms CollatzPrefix.RationalPeriodicDictionary.cyclePotential_le_cap
+#print axioms CollatzPrefix.RationalPeriodicDictionary.cyclePotential_nonneg
+#print axioms CollatzPrefix.RationalPeriodicDictionary.cyclePotential_step
+#print axioms CollatzPrefix.RationalPeriodicDictionary.defect_even
+#print axioms CollatzPrefix.RationalPeriodicDictionary.defect_natAbs_le
+#print axioms CollatzPrefix.RationalPeriodicDictionary.defect_pos_of_value_lt
+#print axioms CollatzPrefix.RationalPeriodicDictionary.defect_step
+#print axioms CollatzPrefix.RationalPeriodicDictionary.exists_cycleMeanAt_eq_minimum
+#print axioms CollatzPrefix.RationalPeriodicDictionary.exponent_eq_valuation
+#print axioms CollatzPrefix.RationalPeriodicDictionary.minimalPeriod_pos
+#print axioms CollatzPrefix.RationalPeriodicDictionary.minimumCycleMean_le
+#print axioms CollatzPrefix.RationalPeriodicDictionary.minimumCycleMean_le_period_average
+#print axioms CollatzPrefix.RationalPeriodicDictionary.minimumCycleMean_pos
+#print axioms CollatzPrefix.RationalPeriodicDictionary.minimum_mean_step
+#print axioms CollatzPrefix.RationalPeriodicDictionary.next_pow_commonPeriod
+#print axioms CollatzPrefix.RationalPeriodicDictionary.one_le_cycleMeanAt
+#print axioms CollatzPrefix.RationalPeriodicDictionary.one_le_minimumCycleMean
+#print axioms CollatzPrefix.RationalPeriodicDictionary.potentialCap_nonneg
+#print axioms CollatzPrefix.RationalPeriodicDictionary.scale_pos
+#print axioms CollatzPrefix.RationalPeriodicDictionary.value_ne_zero
+#print axioms CollatzPrefix.RationalPeriodicDictionary.value_step
+#print axioms CollatzPrefix.RationalPeriodicDictionary.value_twoAdicOdd
+#print axioms CollatzPrefix.RationalPeriodicDictionary.value_valuation
+#print axioms CollatzPrefix.RationalPeriodicDictionary.zero_cluster_replacement
+#print axioms CollatzPrefix.RationalPeriodicDictionary.zero_cluster_replacement_shifted
+#print axioms CollatzPrefix.RepairClusterPartition.block_unique
+#print axioms CollatzPrefix.RepairClusterPartition.clusterOf_eq_iff
+#print axioms CollatzPrefix.RepairClusterPartition.clusterOf_spec
+#print axioms CollatzPrefix.RepairClusterPartition.cluster_gap_cover
+#print axioms CollatzPrefix.RepairClusterPartition.cluster_nonempty
+#print axioms CollatzPrefix.RepairClusterPartition.cluster_ordered
+#print axioms CollatzPrefix.RepairClusterPartition.cluster_right_le
+#print axioms CollatzPrefix.RepairClusterPartition.contains_repair
+#print axioms CollatzPrefix.RepairClusterPartition.covers
+#print axioms CollatzPrefix.RepairClusterPartition.cross_cluster_separation
+#print axioms CollatzPrefix.RepairClusterPartition.first_strictMono
+#print axioms CollatzPrefix.RepairClusterPartition.gapEnd_castSucc
+#print axioms CollatzPrefix.RepairClusterPartition.gapEnd_last
+#print axioms CollatzPrefix.RepairClusterPartition.gapEnd_le
+#print axioms CollatzPrefix.RepairClusterPartition.gaps_good
+#print axioms CollatzPrefix.RepairClusterPartition.index_lt_of_clusterOf_lt
+#print axioms CollatzPrefix.RepairClusterPartition.last_lt_first_of_lt
+#print axioms CollatzPrefix.RepairClusterPartition.last_strictMono
+#print axioms CollatzPrefix.RepairClusterPartition.mem_cluster_iff_clusterOf_eq
+#print axioms CollatzPrefix.RepairClusterPartition.repair_covered
+#print axioms CollatzPrefix.RepairClusterPartition.snapshot_last
+#print axioms CollatzPrefix.RepairClusterPartition.snapshot_le_gapEnd
+#print axioms CollatzPrefix.RepairClusterPartition.snapshot_succ
+#print axioms CollatzPrefix.RepairClusterPartition.snapshot_succ_eq_gapEnd_add
+#print axioms CollatzPrefix.RepairClusterPartition.snapshot_zero
+#print axioms CollatzPrefix.StabilizedFailureFamily.cluster_has_repair
+#print axioms CollatzPrefix.StabilizedFailureFamily.cover
+#print axioms CollatzPrefix.StabilizedFailureFamily.gapEnd_le_length
+#print axioms CollatzPrefix.StabilizedFailureFamily.good_gap
+#print axioms CollatzPrefix.StabilizedFailureFamily.next_time
+#print axioms CollatzPrefix.StabilizedFailureFamily.subsequence_position
+#print axioms CollatzPrefix.StabilizedFailureFamily.subsequence_sample
+#print axioms CollatzPrefix.StabilizedFailureFamily.time_le_gapEnd
+#print axioms CollatzPrefix.StabilizedFailureFamily.time_le_length
+#print axioms CollatzPrefix.StabilizedFailureFamily.time_zero
+#print axioms CollatzPrefix.abs_reference_le_cap
+#print axioms CollatzPrefix.acceleratedExponent_eq_one_of_mod_four
+#print axioms CollatzPrefix.acceleratedExponent_pos
+#print axioms CollatzPrefix.accelerated_le_three_mul_add_one
+#print axioms CollatzPrefix.accelerated_numerator
+#print axioms CollatzPrefix.accelerated_odd
+#print axioms CollatzPrefix.accelerated_pos
+#print axioms CollatzPrefix.actualDepth_interval
+#print axioms CollatzPrefix.actualDepth_monotone
+#print axioms CollatzPrefix.actualDepth_succ
+#print axioms CollatzPrefix.actual_cluster_eventually_subspace_small
+#print axioms CollatzPrefix.actual_cluster_three_place_bound
+#print axioms CollatzPrefix.actual_cluster_three_place_fixed_width_bound
+#print axioms CollatzPrefix.actual_repair_ratio_tendsto_of_excess
+#print axioms CollatzPrefix.actual_repair_ratio_tendsto_one
+#print axioms CollatzPrefix.actual_snapshot_increment_relation
+#print axioms CollatzPrefix.actual_sorted_repairs_normalized_tendsto
+#print axioms CollatzPrefix.admissible_prefix
+#print axioms CollatzPrefix.admissible_suffix
+#print axioms CollatzPrefix.admissible_value_lt
+#print axioms CollatzPrefix.affine_exponent_exact
+#print axioms CollatzPrefix.affine_run_difference
+#print axioms CollatzPrefix.affine_run_twoAdicOdd
+#print axioms CollatzPrefix.all_windows_lower
+#print axioms CollatzPrefix.bounded_deep_steps_prefix_length
+#print axioms CollatzPrefix.bounded_repair_prefix_length
+#print axioms CollatzPrefix.bounded_repair_reference_depth
+#print axioms CollatzPrefix.chronologicalWord_injective
+#print axioms CollatzPrefix.chronological_entropy
+#print axioms CollatzPrefix.clusterForms_arch_product
+#print axioms CollatzPrefix.clusterForms_castSucc
+#print axioms CollatzPrefix.clusterForms_last
+#print axioms CollatzPrefix.clusterForms_linearIndependent
+#print axioms CollatzPrefix.clusterForms_transform_injective
+#print axioms CollatzPrefix.clusterWidthCoefficient_nonneg
+#print axioms CollatzPrefix.cluster_bound_of_step_bound
+#print axioms CollatzPrefix.cluster_positions_card_le
+#print axioms CollatzPrefix.cluster_three_place_product_bound
+#print axioms CollatzPrefix.cluster_three_place_product_depth_bound
+#print axioms CollatzPrefix.cluster_three_place_relations
+#print axioms CollatzPrefix.cluster_three_place_subspaces
+#print axioms CollatzPrefix.constant_or_divergent_subsequence
+#print axioms CollatzPrefix.correction_bound
+#print axioms CollatzPrefix.cyclic_weighted_difference
+#print axioms CollatzPrefix.deepStepCount_sharpShallowSeed
+#print axioms CollatzPrefix.deep_step_bound_of_dictionary_bound
+#print axioms CollatzPrefix.defect_increment
+#print axioms CollatzPrefix.defect_ratio
+#print axioms CollatzPrefix.defect_unchanged
+#print axioms CollatzPrefix.defect_valuation_step
+#print axioms CollatzPrefix.entropy_packing
+#print axioms CollatzPrefix.entropy_packing_endpoint
+#print axioms CollatzPrefix.even_log_identity
+#print axioms CollatzPrefix.eventually_affine_exponent_nonpos
+#print axioms CollatzPrefix.eventually_cluster_sum_eq_zero_allow_zero
+#print axioms CollatzPrefix.eventually_log_product_add_height_nonpos
+#print axioms CollatzPrefix.eventually_product_le_height_rpow_neg
+#print axioms CollatzPrefix.eventually_product_le_rpow_neg_of_log_exp_bounds
+#print axioms CollatzPrefix.eventually_weighted_cluster_endpoints_eq_zero
+#print axioms CollatzPrefix.eventually_weighted_repair_cluster_sum_eq_zero
+#print axioms CollatzPrefix.excess_le_of_repair_successor_le
+#print axioms CollatzPrefix.exists_boundary_interval
+#print axioms CollatzPrefix.exists_first_repair
+#print axioms CollatzPrefix.exists_full_budget_failure_family
+#print axioms CollatzPrefix.exists_minimal_failure_family
+#print axioms CollatzPrefix.exists_minimal_repairs
+#print axioms CollatzPrefix.exists_sorted_positions
+#print axioms CollatzPrefix.exists_sorted_repairs
+#print axioms CollatzPrefix.exponent_le_cap
+#print axioms CollatzPrefix.extract_repair_clusters
+#print axioms CollatzPrefix.failure_family_eventually_full_budget
+#print axioms CollatzPrefix.finite_constant_or_divergent_subsequence
+#print axioms CollatzPrefix.finite_label_constant_subsequence
+#print axioms CollatzPrefix.finite_log_mass_bound
+#print axioms CollatzPrefix.finite_relation_subsequence
+#print axioms CollatzPrefix.finite_relations_of_proper_subspaces
+#print axioms CollatzPrefix.fixed_gap_repair_clusters
+#print axioms CollatzPrefix.goodAt_after_last_repair
+#print axioms CollatzPrefix.goodAt_before_first_repair
+#print axioms CollatzPrefix.goodAt_between_repairs
+#print axioms CollatzPrefix.goodAt_of_empty_repair_enumeration
+#print axioms CollatzPrefix.goodAt_shift
+#print axioms CollatzPrefix.good_gap_valuation
+#print axioms CollatzPrefix.good_gap_valuation_cover
+#print axioms CollatzPrefix.good_run_valuation
+#print axioms CollatzPrefix.integerSnapshot_abs_le
+#print axioms CollatzPrefix.integerSnapshot_abs_sub_le
+#print axioms CollatzPrefix.integerSnapshot_cast
+#print axioms CollatzPrefix.integerSnapshot_cluster_bound
+#print axioms CollatzPrefix.integerSnapshot_normalized_tendsto
+#print axioms CollatzPrefix.integerSnapshot_pos
+#print axioms CollatzPrefix.integerSnapshot_ratio_eq
+#print axioms CollatzPrefix.integerSnapshot_sub_ne_zero
+#print axioms CollatzPrefix.integerSnapshot_three_norm_le
+#print axioms CollatzPrefix.integerSnapshot_two_norm
+#print axioms CollatzPrefix.integerSnapshots_norm_le
+#print axioms CollatzPrefix.integer_iSup_abs_eq_norm
+#print axioms CollatzPrefix.length_le_prefixLengthCap
+#print axioms CollatzPrefix.length_le_referenceDepth
+#print axioms CollatzPrefix.length_log_bound_of_depth_bound
+#print axioms CollatzPrefix.mem_repairSet
+#print axioms CollatzPrefix.minimal_repairs_cluster_increment_ne_zero
+#print axioms CollatzPrefix.minimum_mean_mul_length_le_depth
+#print axioms CollatzPrefix.minimum_mean_mul_length_le_of_repairs
+#print axioms CollatzPrefix.minimum_mean_reference_step
+#print axioms CollatzPrefix.negativeFixedDictionary_injective
+#print axioms CollatzPrefix.negativeFixedDictionary_value
+#print axioms CollatzPrefix.negative_reference_admissible
+#print axioms CollatzPrefix.negative_reference_depth
+#print axioms CollatzPrefix.negative_reference_repair_count
+#print axioms CollatzPrefix.no_repair_length_le
+#print axioms CollatzPrefix.no_separated_actual_cluster_relation
+#print axioms CollatzPrefix.no_uniform_shallow_leading_coefficient
+#print axioms CollatzPrefix.normalizedDefect_cluster_bound
+#print axioms CollatzPrefix.normalizedDefect_eq_sum_enumerated_repairs
+#print axioms CollatzPrefix.normalizedDefect_eq_sum_repairs
+#print axioms CollatzPrefix.normalizedDefect_good_gap
+#print axioms CollatzPrefix.normalizedDefect_good_gap_tendsto
+#print axioms CollatzPrefix.normalizedDefect_good_step
+#print axioms CollatzPrefix.normalizedDefect_increment
+#print axioms CollatzPrefix.normalizedDefect_pos
+#print axioms CollatzPrefix.normalizedDefect_step_ratio
+#print axioms CollatzPrefix.normalized_relation_coeff_sum_zero
+#print axioms CollatzPrefix.oddOrbit_add
+#print axioms CollatzPrefix.oddOrbit_affineStep
+#print axioms CollatzPrefix.oddOrbit_odd
+#print axioms CollatzPrefix.oddOrbit_pos
+#print axioms CollatzPrefix.oddOrbit_sharpShallowSeed
+#print axioms CollatzPrefix.oddOrbit_succ
+#print axioms CollatzPrefix.oddOrbit_zero
+#print axioms CollatzPrefix.odd_log_identity
+#print axioms CollatzPrefix.one_le_integerSnapshots_norm
+#print axioms CollatzPrefix.orbit_log_growth
+#print axioms CollatzPrefix.orbit_pos
+#print axioms CollatzPrefix.parityPrefix_injective_below
+#print axioms CollatzPrefix.parityPrefix_length
+#print axioms CollatzPrefix.parityPrefix_ofFn
+#print axioms CollatzPrefix.parityPrefix_residue
+#print axioms CollatzPrefix.parity_bit_nat
+#print axioms CollatzPrefix.periodic_no_repair_bound
+#print axioms CollatzPrefix.periodic_no_repair_log_bound
+#print axioms CollatzPrefix.periodic_no_repair_valuation
+#print axioms CollatzPrefix.positive_chronological_entropy
+#print axioms CollatzPrefix.predecessor_tendsto_of_successor
+#print axioms CollatzPrefix.prefixDepthBound_zero
+#print axioms CollatzPrefix.prefixLengthCap_le_boundedStateLengthCap
+#print axioms CollatzPrefix.referenceAbsCap_nonneg
+#print axioms CollatzPrefix.referenceDepth_add
+#print axioms CollatzPrefix.referenceDepth_le_add_repairs
+#print axioms CollatzPrefix.referenceDepth_le_cap_mul
+#print axioms CollatzPrefix.referenceDepth_split_at
+#print axioms CollatzPrefix.referenceDepth_succ
+#print axioms CollatzPrefix.repairCount_mono
+#print axioms CollatzPrefix.repairCount_prefix_before_repair
+#print axioms CollatzPrefix.repairCount_suffix_after_repair
+#print axioms CollatzPrefix.repairCount_zero_iff
+#print axioms CollatzPrefix.repair_neighbors_tendsto_of_divergent_excess
+#print axioms CollatzPrefix.repair_product_tendsto_one
+#print axioms CollatzPrefix.repair_ratio_tendsto_one
+#print axioms CollatzPrefix.repair_successor_tendsto_of_excess
+#print axioms CollatzPrefix.sampled_words_injective
+#print axioms CollatzPrefix.scale_le_endpoint
+#print axioms CollatzPrefix.scaled_defect_increment_bound
+#print axioms CollatzPrefix.shallow_prefix_bound
+#print axioms CollatzPrefix.shallow_prefix_divisibility
+#print axioms CollatzPrefix.shallow_prefix_identity
+#print axioms CollatzPrefix.sharpShallowSeed_exponent
+#print axioms CollatzPrefix.sharpShallowSeed_log_height
+#print axioms CollatzPrefix.sharpShallowSeed_odd
+#print axioms CollatzPrefix.sharpShallowSeed_pos
+#print axioms CollatzPrefix.sharpShallowState_add_one
+#print axioms CollatzPrefix.sharpShallowState_exponent
+#print axioms CollatzPrefix.sharpShallowState_mod_four
+#print axioms CollatzPrefix.sharpShallowState_odd
+#print axioms CollatzPrefix.sharpShallowState_pos
+#print axioms CollatzPrefix.sharpShallowState_recurrence
+#print axioms CollatzPrefix.sharpShallowState_step
+#print axioms CollatzPrefix.sharpShallowState_zero
+#print axioms CollatzPrefix.shifted_window_lower
+#print axioms CollatzPrefix.shortcut_even
+#print axioms CollatzPrefix.shortcut_log_growth
+#print axioms CollatzPrefix.shortcut_odd
+#print axioms CollatzPrefix.shortcut_odd_numerator
+#print axioms CollatzPrefix.shortcut_pos
+#print axioms CollatzPrefix.snapshot_delta_sum
+#print axioms CollatzPrefix.snapshot_normalized_tendsto
+#print axioms CollatzPrefix.snapshot_ratio_eventual_bounds
+#print axioms CollatzPrefix.snapshot_relation_to_increments
+#print axioms CollatzPrefix.snapshot_tail_identity
+#print axioms CollatzPrefix.snapshot_three_norm_le
+#print axioms CollatzPrefix.snapshot_two_norm
+#print axioms CollatzPrefix.sorted_repairs_normalized_tendsto
+#print axioms CollatzPrefix.source_tendsto_of_excess
+#print axioms CollatzPrefix.spliceReference_eq_original
+#print axioms CollatzPrefix.spliceReference_eq_replacement
+#print axioms CollatzPrefix.spliceReference_good_inside
+#print axioms CollatzPrefix.spliceReference_good_outside
+#print axioms CollatzPrefix.spliceReference_repairCount_lt
+#print axioms CollatzPrefix.spliceReference_repairSet_subset
+#print axioms CollatzPrefix.stabilize_failure_family
+#print axioms CollatzPrefix.stabilized_failure_family_impossible
+#print axioms CollatzPrefix.sum_filter_prod_fst
+#print axioms CollatzPrefix.sum_nonzero_support
+#print axioms CollatzPrefix.sum_nonzero_support_filter
+#print axioms CollatzPrefix.sum_range_cast
+#print axioms CollatzPrefix.tailCoefficient_castSucc
+#print axioms CollatzPrefix.tailCoefficient_last
+#print axioms CollatzPrefix.tailCoefficient_ne_zero
+#print axioms CollatzPrefix.three_place_cancellation
+#print axioms CollatzPrefix.twoAdicOdd_predecessor
+#print axioms CollatzPrefix.two_power_valuation
+#print axioms CollatzPrefix.unbounded_excess_sequence
+#print axioms CollatzPrefix.weighted_cluster_sum_eq_endpoints
+#print axioms CollatzPrefix.weighted_cover_bound
+#print axioms CollatzPrefix.weighted_increment_eq_bool_sum
+#print axioms CollatzPrefix.weighted_normalizedDefect_increment
+#print axioms CollatzPrefix.wordMass_log
+#print axioms CollatzPrefix.wordMass_pos
+#print axioms CollatzPrefix.wordMass_total
+#print axioms CollatzPrefix.zero_normalized_defect_endpoint

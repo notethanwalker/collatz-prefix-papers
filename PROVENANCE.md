@@ -4,6 +4,6 @@ These papers were prepared from the user-supplied `Collatz_PrePaper_Research_Pac
 
 The supplied package contained summaries rather than the complete original fixed-event and dictionary manuscripts. The second paper therefore supplies a reconstructed argument, including the cluster reduction, three-place estimate, and elimination of exceptional subspaces. It should be evaluated on that written argument rather than treated as a transcription of an independently reviewed proof.
 
-OpenAI ChatGPT/Codex assisted with proof reconstruction, literature comparison, drafting, typesetting, and consistency checks. The author name follows the supplied research package. No human referee approval or proof-assistant certification is claimed.
+OpenAI ChatGPT/Codex assisted with proof reconstruction, literature comparison, drafting, typesetting, and consistency checks. The author name follows the supplied research package. No human referee approval or proof-assistant certification of either full main theorem is claimed. The checked component coverage is documented separately in `formal/README.md`.
 
 The literature comparisons identify differences from specific cited results. They do not certify global novelty or priority. The papers deliberately omit the package's unrelated claims and machine constructions.

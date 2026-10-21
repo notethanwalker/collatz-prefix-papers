@@ -20,7 +20,7 @@ Install elan from the official Lean distribution, then run:
 ```sh
 cd formal
 lake update
-lake exe cache get Mathlib/Analysis/SpecialFunctions/BinaryEntropy.lean Mathlib/Tactic.lean Mathlib/Data/Nat/ModEq.lean
+lake exe cache get Mathlib.Analysis.SpecialFunctions.BinaryEntropy Mathlib.Tactic Mathlib.Data.Nat.ModEq
 lake build
 lake env lean VerificationAudit.lean > verification.log
 python3 check_audit.py verification.log

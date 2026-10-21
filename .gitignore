@@ -1,2 +1,7 @@
 build/
 __pycache__/
+formal/.lake/
+formal/verification.log
+formal/*.olean
+formal/*.ilean
+formal/runtime-compat/*.so

@@ -1,23 +1,31 @@
 # Formal verification status: INCOMPLETE
 
-Neither paper currently has an end-to-end proof-assistant verification. The written proofs and the Python consistency checks must not be described as formal certificates. Full formal verification of both papers is a publication requirement requested by the author and remains open.
+Neither paper currently has an end-to-end proof-assistant verification. Full formal verification of both papers is a requirement requested by the author and remains open.
+
+There is now a pinned, successfully checked Lean project containing 34 component theorems, with no proof holes or theorem-shaped axioms. See [formal/README.md](formal/README.md) for exact coverage and reproduction, and [the recorded dependency audit](formal/VERIFICATION_RESULTS.txt). The Python checks remain numerical consistency checks. A successful component audit does not establish either main asymptotic theorem.
 
 ## Entropy paper
 
 The required formal target is the maximum-height liminf theorem for the actual shortcut Collatz orbit, not a numerical approximation or an implication assuming the main entropy bound.
 
-Outstanding obligations:
+Completed components:
 
-1. Define the orbit and prove the parity-word residue correspondence.
-2. Prove injectivity of the sampled parity-window map on distinct bounded states.
-3. Develop the finite probability space on chronological positions; prove its joint entropy and coordinate-window boundary estimates.
-4. Apply formal entropy subadditivity, binary entropy concavity, and monotonicity to prove the finite theorem.
-5. Prove the exact logarithmic growth identity and harmonic error bound for distinct positive integers.
-6. Formalize the subsequence/liminf argument, linking the entropy constant to the exact symbolic expression. Decimal approximations are secondary.
+1. Actual shortcut map, parity-residue correspondence, and sampled-word injectivity.
+2. A finite Bernoulli product-mass argument giving the entropy inequality, including its degenerate endpoint. This is an alternative formal derivation of the written entropy argument.
+3. Exact chronological boundary correction and `positive_chronological_entropy` for distinct starts below `2^r`, in natural-log units.
+4. Exact logarithmic orbit-growth identity and the pointwise reciprocal bound for correction terms.
+
+Outstanding:
+
+1. The bound on the reciprocal sum over arbitrary distinct positive orbit values and its harmonic estimate.
+2. The subsequence/liminf argument and final exact symbolic maximum-height exponent.
+3. An explicit formal link from the paper's chosen maximum/ceiling definition of `r` to the bounded-state hypothesis used by the verified finite inequality.
 
 ## Bounded-deviations paper
 
 The target must use the actual accelerated odd map, actual valuations, an explicitly defined periodic dictionary, and the stated domain restriction.
+
+Checked components are the exact rational defect increment, matching-step invariance, repair ratio, and the zero-deep-step prefix identity/divisibility/size bound. They do not establish the arbitrary-budget theorem.
 
 Outstanding obligations:
 
@@ -39,6 +47,10 @@ The p-adic Subspace Theorem and nondegenerate S-unit finiteness are deep externa
 - Successful checker output and a reproducible CI command.
 - The PDFs and README accurately state the achieved level of verification.
 
-## Environment attempt on 21 October 2026
+## Verified run on 21 October 2026
 
-Lean 4.19.0 was downloaded from the official distribution, and mathlib tag v4.19.0 was fetched. Invoking the downloaded Lean executable returned `error: failed to locate application`; Lake reported it could not detect its installation configuration. No Lean theorem was successfully checked in this session. These setup attempts are not evidence for either proof.
+Lean 4.19.0 and pinned mathlib were installed. The executable-discovery issue was resolved with the narrow `/proc/self/exe` compatibility fallback documented in `formal/README.md`. The Lean kernel and theorem terms were not modified.
+
+`lake build`, a fresh `lake env lean VerificationAudit.lean`, and `python3 check_audit.py verification.log` passed for all 34 listed component theorems. Their axiom dependencies are confined to the standard `propext`, `Classical.choice`, and `Quot.sound` foundations.
+
+A search of the pinned mathlib sources did not locate the needed Subspace Theorem or S-unit finiteness formalizations. These deep inputs, and the Collatz-specific reductions using them, have not been formalized here. No axiom asserting them was added.

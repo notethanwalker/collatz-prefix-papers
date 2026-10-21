@@ -13,9 +13,9 @@ The first proves a chronological maximum-height exponent of `1.0526808586…` us
 
 The second bounds the length of an accelerated odd Collatz prefix with a fixed number of deep steps by `(1 + epsilon) log_2(n + 1) + O(1)`. It also treats deviations from a fixed finite rational periodic dictionary. Its proof uses the established p-adic Subspace Theorem and S-unit finiteness; the constants are ineffective.
 
-**Formal verification is incomplete for both papers.** See the [verification status and acceptance criteria](FORMAL_VERIFICATION.md). The requested public release with formal certificates remains pending.
+**Formal verification is incomplete for both papers.** A pinned [Lean project](formal/README.md) now checks 34 component theorems, including the finite chronological entropy inequality, the exact growth identity, the zero-deep-step bound, and the rational defect identities. Its [dependency audit](formal/VERIFICATION_RESULTS.txt) uses only standard Lean foundations. See the [verification status and acceptance criteria](FORMAL_VERIFICATION.md). The requested public release with formal certificates remains pending.
 
-These are preprints, with AI assistance disclosed in each paper. They have not undergone independent human peer review or formal verification. Neither paper proves Collatz convergence, and neither asserts a comprehensive priority claim. The second paper's proof is reconstructed from the supplied research summaries; see [provenance](PROVENANCE.md).
+These are preprints, with AI assistance disclosed in each paper. They have not undergone independent human peer review and do not have complete formal verification. Neither paper proves Collatz convergence, and neither asserts a comprehensive priority claim. The second paper's proof is reconstructed from the supplied research summaries; see [provenance](PROVENANCE.md).
 
 ## Build and check
 

@@ -1,4 +1,4 @@
-name: Check formalized components (partial coverage)
+name: Check Lean proofs and dependency audit
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -18,7 +18,7 @@ jobs:
       - name: Fetch pinned dependencies and compiled library cache
         run: |
           lake update
-          lake exe cache get Mathlib.Analysis.SpecialFunctions.BinaryEntropy Mathlib.Tactic Mathlib.Data.Nat.ModEq
+          lake exe cache get Mathlib.Analysis.SpecialFunctions.BinaryEntropy Mathlib.Tactic Mathlib.Data.Nat.ModEq Mathlib.Analysis.Asymptotics.SpecificAsymptotics Mathlib.Order.Filter.Cofinite Mathlib.Algebra.Order.Floor.Semiring Mathlib.Data.EReal.Basic Mathlib.Order.LiminfLimsup Mathlib.NumberTheory.Padics.PadicVal.Basic
       - name: Build all formalized components
         run: lake build
       - name: Check every component's axiom dependencies

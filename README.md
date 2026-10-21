@@ -13,9 +13,11 @@ The first proves a chronological maximum-height exponent of `1.0526808586…` us
 
 The second bounds the length of an accelerated odd Collatz prefix with a fixed number of deep steps by `(1 + epsilon) log_2(n + 1) + O(1)`. It also treats deviations from a fixed finite rational periodic dictionary. Its proof uses the established p-adic Subspace Theorem and S-unit finiteness; the constants are ineffective.
 
-**Formal verification is incomplete for both papers.** A pinned [Lean project](formal/README.md) now checks 34 component theorems, including the finite chronological entropy inequality, the exact growth identity, the zero-deep-step bound, and the rational defect identities. Its [dependency audit](formal/VERIFICATION_RESULTS.txt) uses only standard Lean foundations. See the [verification status and acceptance criteria](FORMAL_VERIFICATION.md). The requested public release with formal certificates remains pending.
+**The entropy maximum-height theorem is now formally verified end to end in Lean.** The exact symbolic statement is [`entropy_height_liminf`](formal/EntropyHeight.lean): for an injective positive orbit of the actual shortcut map, the extended-real lower limit of `log H_M / log M` is at least `log 2 / binEntropy (log 2 / log 3)`. It does not assume the growth bound being proved. The proof and its dependencies use only standard Lean foundations, with no proof holes or custom axioms.
 
-These are preprints, with AI assistance disclosed in each paper. They have not undergone independent human peer review and do not have complete formal verification. Neither paper proves Collatz convergence, and neither asserts a comprehensive priority claim. The second paper's proof is reconstructed from the supplied research summaries; see [provenance](PROVENANCE.md).
+**The arbitrary-repair theorem in the bounded-deviations paper is not yet formally verified.** The project includes proved accelerated-map, reference-dictionary and zero-repair results, but these are not a substitute for its arbitrary-budget conclusion. See the [precise status](FORMAL_VERIFICATION.md), [Lean instructions](formal/README.md), and [dependency audit](formal/VERIFICATION_RESULTS.txt).
+
+These are preprints, with AI assistance disclosed in each paper. They have not undergone independent human peer review. Formal verification of the entropy theorem does not establish a novelty claim, certify its bibliography or decimal approximation, or prove Collatz convergence. The second paper's proof is reconstructed from the supplied research summaries; see [provenance](PROVENANCE.md).
 
 ## Build and check
 

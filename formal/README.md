@@ -1,43 +1,48 @@
-# Lean verification: partial coverage
+# Lean proofs: full entropy theorem, partial bounded-deviations theorem
 
-**Neither paper's main asymptotic theorem has complete formal verification.** A green component build does not certify the entire paper.
+The entropy paper's **main symbolic asymptotic theorem is verified end to end**.
+The bounded-deviations paper's **arbitrary-repair theorem remains incomplete**.
+See the [exact coverage](../FORMAL_VERIFICATION.md).
 
-This project pins Lean 4.19.0 and mathlib commit `c44e0c8ee63ca166450922a373c7409c5d26b00b`. `FormalComponents.lean` contains 34 proved theorems; `VerificationAudit.lean` prints every theorem's axiom dependencies. No Collatz-specific axiom, `sorry`, `admit`, or `native_decide` is used.
+Pinned toolchain: Lean 4.19.0, mathlib commit
+`c44e0c8ee63ca166450922a373c7409c5d26b00b`.
 
-## Checked coverage
+## Proof modules
 
-- The actual shortcut map, parity-word residue correspondence, and bounded-state word injectivity.
-- A finite Bernoulli packing inequality, its degenerate endpoint, and exact chronological window corrections.
-- `positive_chronological_entropy`: the finite entropy inequality for the actual positive Collatz orbit with distinct starts below `2^r`. The real logarithms and binary entropy are both in natural units; dividing by `log 2` gives the base-two form. The size condition is explicit; the paper chooses `r` from the maximum.
-- Exact one-step and finite-orbit logarithmic growth identities; the reciprocal bound on each correction term.
-- The rational normalized defect increment, matching-step invariance, and repair ratio identities.
-- The zero-deep-step prefix identity, divisibility, and coefficient-one bound. This does not prove the arbitrary fixed repair-budget theorem.
+- `FormalComponents.lean`: original finite entropy, orbit identities and rational identities.
+- `CorrectionDecay.lean`: correction terms and their means tend to zero along an injective orbit.
+- `HeightWindow.lean`: actual chronological maximum and the paper's ceiling window.
+- `EntropyHeight.lean`: full `entropy_height_liminf` theorem and eventual-exponent equivalence.
+- `BoundedDeviations.lean`: accelerated map, periodic-reference valuations and zero-repair bounds.
+
+No `sorry`, `admit`, `native_decide`, or custom mathematical axioms are used.
+Every theorem's checked dependency set is restricted to `propext`,
+`Classical.choice`, and `Quot.sound`.
 
 ## Reproduce
 
-Install elan from the official Lean distribution, then run:
+Install Lean via its official elan distribution, then run:
 
 ```sh
 cd formal
 lake update
-lake exe cache get Mathlib.Analysis.SpecialFunctions.BinaryEntropy Mathlib.Tactic Mathlib.Data.Nat.ModEq
+lake exe cache get Mathlib.Analysis.SpecialFunctions.BinaryEntropy Mathlib.Tactic Mathlib.Data.Nat.ModEq Mathlib.Analysis.Asymptotics.SpecificAsymptotics Mathlib.Order.Filter.Cofinite Mathlib.Algebra.Order.Floor.Semiring Mathlib.Data.EReal.Basic Mathlib.Order.LiminfLimsup Mathlib.NumberTheory.Padics.PadicVal.Basic
 lake build
 lake env lean VerificationAudit.lean > verification.log
 python3 check_audit.py verification.log
 ```
 
-The expected dependency set is confined to Lean's standard `propext`, `Classical.choice`, and `Quot.sound` foundations. See `VERIFICATION_RESULTS.txt` for the run recorded with this revision and the repository workflow for fresh checks.
+The committed audit commands must cover every theorem in all five modules.
+When adding a theorem, regenerate them with `python3 check_audit.py --generate`,
+then rebuild and rerun the audit. The script's source scan is an extra guardrail;
+Lean's kernel checking and transitive axiom inspection are the decisive checks.
+The independent semantic review must still confirm that theorem statements
+match the intended mathematical claims.
 
-## Remaining work
+## Recorded verification
 
-The entropy paper still needs the distinct-state harmonic sum bound, the asymptotic limit/subsequence argument, and the final maximum-height exponent statement. The bounded-deviations paper still needs the valuation and cluster reductions, three-place estimate, formal Diophantine inputs, exceptional-subspace elimination, and final arbitrary-budget theorem. See the root `FORMAL_VERIFICATION.md` for details.
-
-## Runtime compatibility used in this session
-
-The task environment exposes `/proc/self/exe`, while Lean 4.19 queries `/proc/<pid>/exe`. `runtime-compat/readlink-self.c` supplies a narrow fallback only for that process's own executable-path lookup. It does not modify Lean's kernel or proof terms. Ordinary Linux CI does not need it. To reproduce in an affected environment:
-
-```sh
-gcc -shared -fPIC -o runtime-compat/readlink-self.so runtime-compat/readlink-self.c -ldl
-export LD_PRELOAD="$PWD/runtime-compat/readlink-self.so"
-export TAR_OPTIONS=--no-same-owner
-```
+See `VERIFICATION_RESULTS.txt` and the GitHub workflow for checked results.
+The current verification used unmodified standard Lean without a runtime shim.
+The historical `runtime-compat/readlink-self.c` is retained for environments
+where Lean's executable-path lookup requires it; it is not part of the proof or
+required for ordinary Linux CI.

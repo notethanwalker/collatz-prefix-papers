@@ -1,6 +1,6 @@
 name = "CollatzPrefixPapers"
 version = "0.1.0"
-defaultTargets = ["FormalComponents", "VerificationAudit"]
+defaultTargets = ["VerificationAudit"]
 
 [[require]]
 name = "mathlib"
@@ -12,3 +12,15 @@ name = "FormalComponents"
 
 [[lean_lib]]
 name = "VerificationAudit"
+
+[[lean_lib]]
+name = "CorrectionDecay"
+
+[[lean_lib]]
+name = "HeightWindow"
+
+[[lean_lib]]
+name = "EntropyHeight"
+
+[[lean_lib]]
+name = "BoundedDeviations"

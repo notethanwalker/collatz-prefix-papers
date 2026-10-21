@@ -1,56 +1,70 @@
-# Formal verification status: INCOMPLETE
+# Formal verification status
 
-Neither paper currently has an end-to-end proof-assistant verification. Full formal verification of both papers is a requirement requested by the author and remains open.
+## Entropy-height paper: main theorem VERIFIED
 
-There is now a pinned, successfully checked Lean project containing 34 component theorems, with no proof holes or theorem-shaped axioms. See [formal/README.md](formal/README.md) for exact coverage and reproduction, and [the recorded dependency audit](formal/VERIFICATION_RESULTS.txt). The Python checks remain numerical consistency checks. A successful component audit does not establish either main asymptotic theorem.
+The full exact symbolic maximum-height theorem is proved in
+[`formal/EntropyHeight.lean`](formal/EntropyHeight.lean), declaration
+`CollatzPrefix.entropy_height_liminf`.
 
-## Entropy paper
+Its assumptions are a positive natural starting value and injectivity of the
+actual shortcut Collatz orbit. Its conclusion is the extended-real lower limit
 
-The required formal target is the maximum-height liminf theorem for the actual shortcut Collatz orbit, not a numerical approximation or an implication assuming the main entropy bound.
+`liminf (log H_M / log M) >= log 2 / binEntropy (log 2 / log 3)`.
 
-Completed components:
+Here `H_M` is exactly the maximum over the first `M` states. `binEntropy` uses
+natural logarithms, so the constant is precisely the paper's
+`1 / h_2(log_3 2)`. The statement allows the lower limit to be positive infinity.
+An explicitly proved equivalence also gives the usual formulation: every
+strictly smaller real exponent is eventually below the logarithmic height ratio.
 
-1. Actual shortcut map, parity-residue correspondence, and sampled-word injectivity.
-2. A finite Bernoulli product-mass argument giving the entropy inequality, including its degenerate endpoint. This is an alternative formal derivation of the written entropy argument.
-3. Exact chronological boundary correction and `positive_chronological_entropy` for distinct starts below `2^r`, in natural-log units.
-4. Exact logarithmic orbit-growth identity and the pointwise reciprocal bound for correction terms.
+### Complete dependency path
 
-Outstanding:
+1. `FormalComponents.lean`: the actual map, parity/residue injectivity,
+   finite Bernoulli entropy packing, chronological window boundary correction,
+   exact orbit growth and correction upper bound.
+2. `CorrectionDecay.lean`: injectivity implies escape from every finite set;
+   reciprocal corrections tend to zero and their Cesàro mean tends to zero.
+   This suffices for the main theorem; an explicit harmonic rate is unnecessary.
+3. `HeightWindow.lean`: actual prefix maximum, exact natural ceiling window,
+   bounded-state implication and logarithmic window upper bound.
+4. `EntropyHeight.lean`: bias lower bound, asymptotic contradiction, eventual
+   lower exponents and the exact extended-real lower-limit theorem.
 
-1. The bound on the reciprocal sum over arbitrary distinct positive orbit values and its harmonic estimate.
-2. The subsequence/liminf argument and final exact symbolic maximum-height exponent.
-3. An explicit formal link from the paper's chosen maximum/ceiling definition of `r` to the bounded-state hypothesis used by the verified finite inequality.
+No growth-rate, random-parity, finite-entropy, or desired-result hypothesis is
+assumed in the final theorem. The dependency audit admits only standard Lean
+foundations (`propext`, `Classical.choice`, `Quot.sound`).
 
-## Bounded-deviations paper
+This verifies the mathematical statement, not its novelty, literature priority,
+rounded decimal evaluation, or every sentence of the paper. The proof uses a
+qualitative Cesàro argument in place of the exposition's quantitative harmonic
+estimate. This does not weaken the final conclusion.
 
-The target must use the actual accelerated odd map, actual valuations, an explicitly defined periodic dictionary, and the stated domain restriction.
+## Bounded-deviations paper: arbitrary-repair theorem INCOMPLETE
 
-Checked components are the exact rational defect increment, matching-step invariance, repair ratio, and the zero-deep-step prefix identity/divisibility/size bound. They do not establish the arbitrary-budget theorem.
+The original rational defect identities and zero-deep-step bound are checked.
+`BoundedDeviations.lean` further develops the actual valuation-defined accelerated
+map, rational periodic dictionaries, good-run valuation loss and the zero-repair
+case. Consult its exact theorem signatures: these do not prove the arbitrary
+fixed repair-budget theorem.
 
-Outstanding obligations:
+Still required for the full paper:
 
-1. Rational cycle denominator properties; positivity and uniform ratio estimates.
-2. Valuation bound for good runs; finite branching and induction over repairs.
-3. Minimal-repair replacement and bounded difference in reference depth.
-4. Subsequences, cluster extraction, and the zero-cluster replacement lemma.
-5. Integrality of the vector, all three local estimates, and the resulting height inequality.
-6. Subspace extraction; limiting coefficient relation; S-unit decomposition and elimination of every exceptional subspace.
-7. Translation from reference depth to length and the specialization to the negative fixed point.
+- Minimal-repair replacement, finite branching, induction and subsequences.
+- Cluster extraction, zero-cluster replacement and all local estimates.
+- The three-place product inequality and the appropriate Subspace Theorem.
+- Nondegenerate S-unit finiteness and exceptional-subspace elimination.
+- The final arbitrary-budget depth/length conclusions and specialization.
 
-The p-adic Subspace Theorem and nondegenerate S-unit finiteness are deep external inputs cited precisely in the paper. If introduced as assumptions rather than proved/imported from a checked library, the output must be labelled **conditional formal verification**, with those assumptions visible in the theorem's dependency audit. Assuming a Collatz-specific intermediate claim does not constitute verification of that claim.
+The deep inputs are absent from the pinned mathlib used here. An external
+Subspace/S-unit formalization is under evaluation; it is not imported or relied
+upon in this revision. Absence from this project is not a claim that no external
+formalization exists. No axiom asserting those theorems or a Collatz-specific
+replacement has been added.
 
-## Acceptance criteria
+## Reproduction and acceptance
 
-- A pinned, reproducible proof-assistant project with the full target statements.
-- All proof obligations discharged, with no `sorry`, `admit`, or hidden theorem-shaped axioms.
-- A checked list of axioms/dependencies, separating logical foundations from any explicitly assumed external mathematical theorems.
-- Successful checker output and a reproducible CI command.
-- The PDFs and README accurately state the achieved level of verification.
-
-## Verified run on 21 October 2026
-
-Lean 4.19.0 and pinned mathlib were installed. The executable-discovery issue was resolved with the narrow `/proc/self/exe` compatibility fallback documented in `formal/README.md`. The Lean kernel and theorem terms were not modified.
-
-`lake build`, a fresh `lake env lean VerificationAudit.lean`, and `python3 check_audit.py verification.log` passed for all 34 listed component theorems. Their axiom dependencies are confined to the standard `propext`, `Classical.choice`, and `Quot.sound` foundations.
-
-A search of the pinned mathlib sources did not locate the needed Subspace Theorem or S-unit finiteness formalizations. These deep inputs, and the Collatz-specific reductions using them, have not been formalized here. No axiom asserting them was added.
+See [formal/README.md](formal/README.md) for pinned toolchain and commands.
+`VerificationAudit.lean` covers every theorem/lemma in all five proof modules;
+`check_audit.py` checks coverage, forbidden proof-hole constructs and the
+Lean-produced axiom dependencies. A green aggregate build certifies only the
+statements actually present, not the incomplete arbitrary-repair theorem.

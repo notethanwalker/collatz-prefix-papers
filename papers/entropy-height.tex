@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=24mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,microtype,hyperref}
+\setlength{\emergencystretch}{2em}
+\hypersetup{pdfauthor={Ethan Walker},colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\hh}{h_2}
+\title{An entropy bound for the maximum height\\of a nonrepeating Collatz orbit}
+\author{Ethan Walker\thanks{Prepared from the author's October 2026 research notes with OpenAI ChatGPT/Codex assistance, including proof reconstruction and exposition. This preprint has not undergone independent human peer review.}}
+\date{21 October 2026}
+\begin{document}\maketitle
+\begin{abstract}
+For an infinite nonrepeating orbit of the shortcut Collatz map, let $H_M$ be the largest of its first $M$ values. We prove
+$\liminf \log H_M/\log M\ge 1/h_2(\log_3 2)=1.0526808586\ldots$.
+The proof combines a finite entropy inequality for overlapping parity windows with the exact multiplicative growth identity. The conclusion concerns chronological maxima; it does not assert a uniform bound on occupation of arbitrary spatial intervals.
+\end{abstract}
+
+\section{A finite inequality}
+Use the shortcut map
+\[
+T(n)=\begin{cases}n/2,&n\text{ even},\\(3n+1)/2,&n\text{ odd}.\end{cases}
+\]
+Write $x_t=T^t(x_0)$, $b_t=x_t\bmod 2$, and
+\[
+H_M=\max_{0\le t<M}x_t,\qquad
+p=\frac1M\sum_{t=0}^{M-1}b_t,\qquad
+r=\lceil\log_2(H_M+1)\rceil.
+\]
+Let $\hh(u)=-u\log_2u-(1-u)\log_2(1-u)$, with the continuous endpoint values.
+
+\begin{theorem}\label{finite}
+If $x_0,\ldots,x_{M-1}$ are distinct and
+$q=p-(r-1)/(2M)\ge 1/2$, then
+\[
+\log_2 M\le r\hh(q).
+\]
+\end{theorem}
+\begin{proof}
+A length-$r$ parity word determines its starting residue modulo $2^r$. To see this, write the $r$-fold affine iteration as
+$2^rT^r(n)=3^s n+B$, where $s$ and $B$ depend only on the word. Two integers with the same word therefore differ by a multiple of $2^r$.
+Since the $M$ distinct starting values lie below $2^r$, their words are distinct.
+
+Choose a starting index $I$ uniformly from $0,\ldots,M-1$. The random word
+$(b_I,\ldots,b_{I+r-1})$ consequently has entropy $\log_2 M$.
+Its $j$th coordinate has mean
+$p_j=M^{-1}\sum_{t=j}^{M+j-1}b_t$, so $|p_j-p|\le j/M$.
+Entropy subadditivity and concavity give
+\[
+\log_2M\le\sum_{j=0}^{r-1}\hh(p_j)
+\le r\hh\!\left(\frac1r\sum_{j=0}^{r-1}p_j\right).
+\]
+The mean in parentheses is at least $q$. Since $\hh$ decreases on $[1/2,1]$, this proves the claim. The future parity windows may extend beyond time $M-1$; the term $(r-1)/(2M)$ accounts for that boundary.
+\end{proof}
+
+\section{The maximum-height exponent}
+\begin{corollary}\label{height}
+If all values of an infinite orbit are distinct, then
+\[
+\liminf_{M\to\infty}\frac{\log H_M}{\log M}
+\ge \kappa_*:=\frac1{\hh(\log_3 2)}
+=1.05268085860797\ldots.
+\]
+\end{corollary}
+\begin{proof}
+Put $\alpha=\log_2 3$. Exact multiplication along the orbit gives
+\[
+\log_2x_M-\log_2x_0=\alpha Mp-M+E_M,
+\quad
+E_M=\sum_{\substack{0\le t<M\\b_t=1}}
+\log_2\left(1+\frac1{3x_t}\right).
+\]
+Distinct positive integer values imply
+$0\le E_M\le(3\ln2)^{-1}\sum_{j=1}^M j^{-1}=O(\log M)$.
+As $x_M\ge1$, it follows that
+$p\ge\alpha^{-1}-O_{x_0}(\log M/M)$.
+
+Suppose $H_M\le M^\kappa$ for infinitely many $M$, with
+$\kappa<\kappa_*$. On this subsequence,
+$r\le\kappa\log_2M+O(1)$ and
+$q\ge\alpha^{-1}-o(1)>1/2$.
+Theorem~\ref{finite}, monotonicity, and continuity of $\hh$ give
+\[
+1\le(\kappa+o(1))\bigl(\hh(\alpha^{-1})+o(1)\bigr),
+\]
+contradicting $\kappa<\kappa_*$. Every number below $\kappa_*$ is therefore an eventual lower exponent.
+\end{proof}
+A positive Collatz orbit that never becomes periodic is injective, so the corollary applies to any divergent orbit. The bound is on the largest value seen so far, not on each individual iterate.
+
+\section{Comparison with prior work}
+Parity words and residue classes are classical; see Terras~\cite{terras}, Everett~\cite{everett}, and Rozier~\cite{rozier}. Those ingredients are not claimed as new.
+Garcia and Tal~\cite{gt}, equation (6), bound occupation of translated intervals by collision-free orbits, with a power saving obtained through Heppner's estimates.
+
+Curry's explicit version~\cite{curry}, Theorem 2.3, bounds that occupation by
+\[
+6(\lfloor\log_2X\rfloor+1)
+\left(X^{\hh(\gamma)}+X^{\alpha\gamma}\right),
+\qquad \tfrac12<\gamma<\alpha^{-1}.
+\]
+The optimal crossing $\hh(\gamma_*)=\alpha\gamma_*$ gives
+$\beta_*=0.96538444173220\ldots$.
+Applying this spatial bound to the first $M$ orbit values implies the chronological exponent
+$1/\beta_*=1.03585676003405\ldots$.
+Corollary~\ref{height} raises this particular consequence to $1.05268085860797\ldots$, an exponent increment of $0.01682409857392\ldots$.
+
+The distinction is essential: the entropy argument uses the chronological initial segment and its growth identity. It does not improve Curry's bound uniformly over translated intervals. We make no claim that this exponent is the first or best in the entire literature; the comparison above is with the stated results. Neither result proves the Collatz conjecture.
+
+\begin{thebibliography}{9}\small
+\bibitem{terras} R. Terras, A stopping time problem on the positive integers, \emph{Acta Arith.} 30 (1976), 241--252.
+\bibitem{everett} C. J. Everett, Iteration of the number-theoretic function $f(2n)=n$, $f(2n+1)=3n+2$, \emph{Adv. Math.} 25 (1977), 42--45.
+\bibitem{rozier} O. Rozier, The $3x+1$ problem: a lower bound hypothesis, \emph{Funct. Approx. Comment. Math.} 56 (2017), 7--23. \href{https://arxiv.org/abs/1510.01610}{arXiv:1510.01610}.
+\bibitem{gt} M. V. P. Garcia and F. A. Tal, A note on the generalized $3n+1$ problem, \emph{Acta Arith.} 90 (1999), 245--250. \href{https://doi.org/10.4064/aa-90-3-245-250}{doi:10.4064/aa-90-3-245-250}.
+\bibitem{curry} M. J. Curry, An Explicit Windowed Sparsity Bound for Divergent $3x+1$ Orbits, with Logarithmic-Floor Exclusion beyond the Harmonic Barrier, preprint (24 August 2026). \href{https://doi.org/10.5281/zenodo.22087163}{doi:10.5281/zenodo.22087163}.
+\end{thebibliography}
+\end{document}

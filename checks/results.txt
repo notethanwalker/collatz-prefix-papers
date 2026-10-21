@@ -1,0 +1,5 @@
+Maximum-height exponent: 1.05268085860797
+Cited spatial-bound consequence: 1.03585676003405
+Exponent increment: 0.01682409857392
+Finite entropy and growth identities checked; 508 entropy cases.
+Sharp shallow-step family checked through length 149.
